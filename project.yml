@@ -1,0 +1,17 @@
+name: TestApp
+
+options:
+  bundleIdPrefix: com.example
+
+targets:
+  TestApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+
+schemes:
+  TestApp:
+    build:
+      targets:
+        - TestApp
