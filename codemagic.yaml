@@ -1,0 +1,33 @@
+workflows:
+  build-test:
+    name: Test XcodeGen Build
+    environment:
+      xcode: latest
+    scripts:
+      - name: Debug project.yml whitespace
+        script: |
+          echo "==== project.yml ===="
+          cat -A project.yml
+          echo "======================"
+
+      - name: Install XcodeGen
+        script: |
+          brew install xcodegen || true
+
+      - name: Generate Xcode project
+        script: |
+          xcodegen generate
+          echo "Generated files:"
+          ls -R .
+
+      - name: Build
+        script: |
+          set -o pipefail
+          xcodebuild \
+            -project TestApp.xcodeproj \
+            -scheme TestApp \
+            -sdk iphoneos \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
